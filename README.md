@@ -1,4 +1,4 @@
-MDPI Life submission of "Stability-Driven Assembly as a Natural Genetic Algorithm".
+MDPI Entropy submission of "Information Evolution by Stability-Driven Assembly".
 
 You can access the code and simulation results from the paper by opening the following colab notebook:
 
