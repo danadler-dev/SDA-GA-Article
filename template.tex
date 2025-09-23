@@ -708,6 +708,33 @@ This feedback loop closes the causal chain: the compounds shape the distribution
 This perspective also clarifies the often misused notion of top-down causation \cite{noble_dance}. There is no need to posit a mystical programmer or abstract force directing the search. What appears as a top-down influence of the probability distribution on individual elements is mechanistically explained by the accumulation of persistence imbalances at the population level. Stability alone suffices to generate the feedback necessary for open-ended, GA-like evolution.
 
 
+
+
+\section{Conclusions}
+
+This work develops \textit{Stability-Driven Assembly} (SDA) as a mechanism by which selection can emerge without explicit fitness functions or replicators. The principle is straightforward: persistence imbalances skew the population, and that skew feeds back into sampling so that longer-lived motifs are chosen more often. The loop \emph{create $\rightarrow$ persist $\rightarrow$ sample} thereby implements the equivalent of roulette–wheel selection—a natural genetic algorithm (SDA/GA) in which fitness is supplied by the environment rather than imposed by a programmer.  
+
+Chemical simulations illustrate these dynamics: populations converge toward dominance by a few scaffolds, entropy and diversity first expand and then contract, and rank–abundance curves acquire heavy tails with a handful of dominant motifs and many rare ones. These are hallmarks of selection acting on a generative process, where novelty is continually introduced but only persistent structures accumulate.  
+
+This perspective contrasts with equilibrium approaches (e.g., constant-rate models in the spirit of MAK), which suppress such feedback by construction. In SDA/GA, effective rates are heterogeneous because stability differs between motifs, making the ``steady state’’ itself an evolving distribution.  
+
+The present formulation remains simplified, relying on heuristic stability functions, abstracted operators, well-mixed dynamics, and the omission of solvent or kinetic detail. Future work should extend these models with multi-run statistics, richer $S(p)$ grounded in thermodynamics and kinetics, additional reaction classes (acid–base cycles, isomerization, polymerization), and experimental tests in open, driven reactors where persistence can be directly measured.  
+
+SDA/GA reframes information not as a pre-existing substance but as an emergent 
+property of population dynamics. Regularities accumulate because persistence 
+biases which motifs endure and recombine, so that information itself evolves 
+through biased exploration. From a population perspective, this process is 
+indistinguishable from evolution: order and information emerge as stable 
+motifs persist longer, recur more often, and proliferate within the population 
+through persistence-driven selection, pointing to a common principle linking 
+chemistry, computation, and biology.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optional
+\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
+\appendixstart
+\appendix
+
 \section{Discussion and Implications}
 
 \subsection{Open-Endedness and Computation}
@@ -719,7 +746,7 @@ This perspective links SDA to computation. Genetic programming showed that varia
 
 \subsection{The Evolutionary Ladder Hypothesis}  
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{SDA-ladder.png}
 \caption{\textbf{SDA Evolutionary Ladder.} A stepwise progression from persistence-only dynamics to Darwinian replication. 
@@ -814,28 +841,6 @@ populations. The order that emerges in any SDA universe is necessarily
 shaped by its particular stability landscape and therefore always appears
 fine-tuned, even though it arises as a natural consequence of persistence in
 a stochastic system.
-
-
-\section{Conclusions}
-
-This work develops \textit{Stability-Driven Assembly} (SDA) as a mechanism by which selection can emerge without explicit fitness functions or replicators. The principle is straightforward: persistence imbalances skew the population, and that skew feeds back into sampling so that longer-lived motifs are chosen more often. The loop \emph{create $\rightarrow$ persist $\rightarrow$ sample} thereby implements the equivalent of roulette–wheel selection—a natural genetic algorithm (SDA/GA) in which fitness is supplied by the environment rather than imposed by a programmer.  
-
-Chemical simulations illustrate these dynamics: populations converge toward dominance by a few scaffolds, entropy and diversity first expand and then contract, and rank–abundance curves acquire heavy tails with a handful of dominant motifs and many rare ones. These are hallmarks of selection acting on a generative process, where novelty is continually introduced but only persistent structures accumulate.  
-
-This perspective contrasts with equilibrium approaches (e.g., constant-rate models in the spirit of MAK), which suppress such feedback by construction. In SDA/GA, effective rates are heterogeneous because stability differs between motifs, making the ``steady state’’ itself an evolving distribution.  
-
-The present formulation remains simplified, relying on heuristic stability functions, abstracted operators, well-mixed dynamics, and the omission of solvent or kinetic detail. Future work should extend these models with multi-run statistics, richer $S(p)$ grounded in thermodynamics and kinetics, additional reaction classes (acid–base cycles, isomerization, polymerization), and experimental tests in open, driven reactors where persistence can be directly measured.  
-
-SDA/GA reframes information not as a pre-existing substance but as an emergent 
-property of population dynamics. Regularities accumulate because persistence 
-biases which motifs endure and recombine, so that information itself evolves 
-through biased exploration. From a population perspective, this process is 
-indistinguishable from evolution: order and information emerge as stable 
-motifs persist longer, recur more often, and proliferate within the population 
-through persistence-driven selection, pointing to a common principle linking 
-chemistry, computation, and biology.
-
-
 
 \section{Simulation Code}
 
@@ -1088,8 +1093,7 @@ https://doi.org/10.1063/1.4818538.
 \bibitem{hershberg2008codon}
 Hershberg, R.; Petrov, D.A. 
 \textit{Selection on codon bias.} 
-Annual Review of Genetics \textbf{2008}, \textit{42}, 287--299. 
-doi:10.1146/annurev.genet.42.110807.091442.
+Annual Review of Genetics \textbf{2008}, \textit{42}, 287--299.
 
 % Reference 47
 \bibitem{mills1993keystone}
@@ -1123,7 +1127,6 @@ Davies, P. \textit{The Goldilocks Enigma: Why is the Universe Just Right for Lif
 
 \end{thebibliography}
 }
-
 
 
 % If authors have biography, please use the format below
