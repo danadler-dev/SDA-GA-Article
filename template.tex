@@ -41,11 +41,11 @@
 
 %=================================================================
 % Full title of the paper (Capitalized)
-\Title{Information Evolution by Stability-Driven Assembly}
+\Title{How Information Evolves: Stability-Driven Assembly and the Emergence of a Natural Genetic Algorithm}
 
 
 % MDPI internal command: Title for citation in the left column
-\TitleCitation{Information Evolution by Stability-Driven Assembly}
+\TitleCitation{How Information Evolves: Stability-Driven Assembly and the Emergence of a Natural Genetic Algorithm}
 
 % Author Orchid ID: enter ID or remove command
 \newcommand{\orcidauthorA}{0009-0007-7122-0317} % Add \orcidA{} behind the author's name
@@ -63,7 +63,7 @@ $^{1}$ \quad dan@danadler.com}
 %=================================================================
 % Abstract (Do not insert blank lines, i.e. \\) 
 \abstract{
-Information can evolve even in the absence of genes or replication. We present Stability-Driven Assembly (SDA), a framework in which persistence imbalances bias populations toward longer-lived motifs, generating selection-like dynamics. In SDA, assemblies are created stochastically and persist according to a stability function. Assemblies that endure longer are more likely to participate in future interactions. This feedback loop yields fitness-proportional sampling, so that a natural genetic algorithm (SDA/GA) emerges, driven solely by stability. We apply the model in chemical symbol space using SMILES fragments, recombination, mutation, and a heuristic stability function. Simulations display the hallmarks of selection: populations become dominated by a few stable compounds sharing common scaffolds, with a corresponding reduction in Shannon entropy. In contrast, chemical equilibrium models with fixed rates lack such feedback, relaxing to uniform steady states rather than modeling open-ended evolution. SDA/GA thus provides a general model of information evolution: whenever stochastic assembly, replenishment, and differential persistence coexist, populations become skewed and ordered structures accumulate.
+Information can evolve as a physical consequence of non-equilibrium processes, even in the absence of genes, replication, or predefined fitness functions. We present Stability-Driven Assembly (SDA), a framework in which stochastic assembly combined with differential persistence biases the population toward longer-lived motifs over time. In SDA, assemblies are formed randomly and persist according to a stability function; assemblies that endure longer are therefore more likely to participate in subsequent interactions. This feedback between persistence and participation reshapes the probability distribution over structures, yielding fitness-proportional sampling and realizing evolution as a natural, emergent genetic algorithm (SDA/GA) driven solely by stability. We apply the model in chemical symbol space using SMILES fragments with recombination, mutation, and a heuristic stability function. Simulations exhibit the characteristic signatures of evolutionary search: populations become dominated by a small number of stable compounds sharing common scaffolds, accompanied by a sustained reduction in Shannon entropy. In contrast, equilibrium chemical models with fixed transition rates lack such feedback and relax toward uniform steady states rather than producing open-ended evolutionary dynamics. SDA/GA thus provides a general physical mechanism for information evolution: whenever stochastic assembly, replenishment, and differential persistence coexist, feedback on the probability distribution makes the accumulation of ordered, functional structure inevitable rather than combinatorially improbable.
 }
 
 
@@ -75,23 +75,20 @@ Information can evolve even in the absence of genes or replication. We present S
 
 \section{Introduction}
 
-One of the deepest questions in the origins of life research is how selection could operate before the advent of replication. Biological evolution depends on variation and inheritance, but both presuppose molecular mechanisms capable of copying information. However, long before such machinery existed, physical and chemical systems already exhibited differences in persistence: some structures survived longer than others under given conditions. The central question is whether these persistence imbalances, acting alone, are sufficient to generate selection-like dynamics and drive the emergence of complexity.
-
-In inanimate systems, patterns persist according to their stability under prevailing conditions. Diamonds outlast graphite under high pressure, and certain molecular motifs are more resilient in given chemical environments \cite{ruizmirazo2014}. Here, we use motif to mean a distinct pattern or, in chemical contexts, a distinct species. Such differences in longevity create implicit selection: stable structures naturally accumulate, biasing the population distribution. This principle of stability-driven selection may provide a bridge between nonliving matter and evolving biospheres \cite{kauffman1993origins, hordijk2012autocatalytic, nghe2015prebiotic}.
-
-Multiple theoretical frameworks have addressed how complexity might emerge from abiotic systems. The autocatalytic set theory shows how reaction networks can become self-sustaining \cite{kauffman1986autocatalytic, hordijk2011required}. Eigen's hypercycles \cite{eigen} extend this idea to mutually reinforcing replicators, but still presuppose replication machinery. Fontana's artificial chemistry \cite{fontana1991algorithmic} and later digital artificial life platforms such as \textit{Tierra} and \textit{Avida} \cite{ray1992tierra, adami1994} demonstrated open-ended dynamics in abstract symbolic systems. More recently, Cronin’s chemputation approach has automated chemical synthesis \cite{cronin2024chemputation}, showing how chemistry can be controlled as code, although only under the guidance of an external programmer. The GARD model of lipid assemblies \cite{segre2000compositional, markovitch2012universal} and protocell ABMs \cite{damer2015coupled} demonstrate how compositional inheritance can arise in specific chemistries. Each of these frameworks contributes valuable insight, yet they remain tied to particular substrates or assume replication.
+One of the deepest questions in the origins of life research is how selection could operate before the advent of replication. Multiple theoretical frameworks have addressed how complexity might emerge from abiotic systems. The autocatalytic set theory shows how reaction networks can become self-sustaining \cite{kauffman1986autocatalytic, hordijk2011required}. Eigen's hypercycles \cite{eigen} extend this idea to mutually reinforcing replicators, but still presuppose replication machinery. Fontana's artificial chemistry \cite{fontana1991algorithmic} and later digital artificial life platforms such as \textit{Tierra} and \textit{Avida} \cite{ray1992tierra, adami1994} demonstrated open-ended dynamics in abstract symbolic systems. More recently, Cronin’s chemputation approach has automated chemical synthesis \cite{cronin2024chemputation}, showing how chemistry can be controlled as code, although only under the guidance of an external programmer. The GARD model of lipid assemblies \cite{segre2000compositional, markovitch2012universal} and protocell ABMs \cite{damer2015coupled} demonstrate how compositional inheritance can arise in specific chemistries. Each of these frameworks contributes valuable insight, yet they remain tied to particular substrates or assume replication.
 
 Other perspectives highlight general physical drivers: preferential attachment in networks \cite{barabasi1999emergence}, dissipative adaptation in nonequilibrium thermodynamics \cite{prigogine1977self, england2015dissipative}, and work on evolutionary dynamics in chemical networks \cite{wu2012origin, nowak2006evolutionary}. Assembly theory quantifies complexity as the minimum depth of construction \cite{walker2023nature}, while constructor theory reformulates physics in terms of possible transformations \cite{deutsch2013constructor}. These approaches offer tools to measure or formalize complexity, though they stop short of explaining how information-generating dynamics arise in real time.
 
 The phrase 'chemical evolution' is widely used in the literature to describe the progressive transformation of molecules into more complex structures under prebiotic conditions. Yet the term is often applied descriptively rather than mechanistically, leaving open the question of what underlying principle imparts directionality or selection to such processes. In particular, while many models demonstrate how complexity can arise in specific chemistries, a general account of how chemical systems move from undirected reaction networks to cumulative, evolutionary dynamics has remained elusive.
 
-This paper introduces Stability-Driven Assembly (SDA) as a framework in which 
-selection arises from persistence imbalances alone. Each generation is shaped 
-by two processes: stochastic creation of new assemblies and persistence or 
-decay according to stability. Together, these processes form a feedback cycle
-in which stable motifs accumulate and bias future sampling, effectively implementing roulette-wheel selection in the sense of a genetic algorithm (GA) 
-\cite{holland1975adaptation, adler1993marriage}, but without an externally
-imposed fitness function.
+Biological evolution depends on variation and inheritance, but both presuppose molecular mechanisms capable of copying information. However, long before such machinery existed, physical and chemical systems already exhibited differences in persistence: some structures survived longer than others under given conditions. The central question is whether these persistence imbalances, acting alone, are sufficient to generate selection-like dynamics and drive the emergence of complexity.
+
+In inanimate systems, patterns persist according to their stability under prevailing conditions. Diamonds outlast graphite under high pressure, and certain molecular motifs are more resilient in given chemical environments \cite{ruizmirazo2014}. Here, we use motif to mean a distinct pattern or, in chemical contexts, a distinct species. Such differences in longevity create implicit selection: stable structures naturally accumulate, biasing the population distribution. This principle of stability-driven selection may provide a bridge between nonliving matter and evolving biospheres \cite{kauffman1993origins, hordijk2012autocatalytic, nghe2015prebiotic}.
+
+Crucially, the persistence imbalances relevant to prebiotic and abiotic evolution are not small perturbations, but span many orders of magnitude. Across physics and chemistry, binding energies, decay rates, and structural reinforcement mechanisms generate lifetime differences ranging from fleeting quantum states to structures that persist for geological or cosmological timescales. These disparities are not incidental: they arise generically from symmetry, energetic minima, spatial organization, and hierarchical assembly. As a result, even weak biases in persistence, when integrated over time and coupled to continual stochastic assembly, can dominate population statistics. In such settings, the probability distribution over structures is not sampled uniformly but becomes progressively skewed toward long-lived motifs, producing effective directionality and entropy reduction without invoking replication, templating, or externally imposed fitness criteria.
+
+Although Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a framework in which 
+selection arises from persistence imbalances alone, the present work focuses on a new implication: the SDA dynamics implement a natural genetic algorithm through persistence-weighted feedback on the population distribution.
 
 Applied to organic chemistry, SDA simulations with chemically meaningful
 recombinations and mutations show populations progressively dominated by
@@ -100,7 +97,9 @@ occasional stochastic innovations trigger bursts of reorganization.
 
 \section{Stability-Driven Assembly (SDA)}
 
-A Stability-Driven Assembly (SDA) \cite{adler_sda} system consists of base elements $A, B, C, \dots$ that recursively combine into compounds represented as
+Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a general non-equilibrium framework in which persistence imbalances bias the accumulation of structure over time . The present work does not revisit the full theoretical development of SDA, but instead uses its minimal formal structure as a substrate for a new result: the identification of SDA dynamics with a natural genetic algorithm. Accordingly, this section summarizes only those elements of SDA necessary to establish how persistence-weighted sampling reshapes probability distributions and induces evolutionary search.
+
+A Stability-Driven Assembly (SDA) system consists of base elements $A, B, C, \dots$ that recursively combine into compounds represented as
 strings of unbounded length. The persistence of each compound is determined by its
 stability $S$: a compound with $S=30$ remains for 30 generations before elimination, while the patterns $S=1$ vanish after a single generation. 
 Expired motifs are removed without explicit reverse reactions and base
@@ -112,7 +111,7 @@ continuously supplied to maintain non-equilibrium conditions. More formally, An 
    \item $E = \{e_1, e_2, \ldots, e_n\}$ is a finite set of base elements
    \item $P$ is the set of all possible patterns formed by concatenating elements from $E$ and existing patterns
    \item $S: P \rightarrow \mathbb{Z}^{+}$ is a stability function mapping each pattern to a positive integer representing its lifetime
-   \item $R: E \rightarrow \mathbb{Z}^{+}$ is a replenishment function specifying how many copies of each base element are added per generation
+   \item $R: E \rightarrow \mathbb{Z}^{+}$ is a replenishment function that specifies how many copies of each base element are added per generation
    \item $I \in \mathbb{Z}^{+}$ is the number of interactions allowed per generation
 \end{itemize}
 The pattern interaction operation, denoted by $\oplus$, is defined as a string concatenation. When patterns $p_1$ and $p_2$ interact, they form a pattern $p_1 \oplus p_2$.
@@ -144,7 +143,7 @@ pattern-forming operation. In what follows, we generalize the interaction
 to a recombination operator with an optional mutation step, and then examine 
 whether the core properties of SDA are preserved under this extension. 
 We refer to this generalized version as \textit{SDA/GA}, since the dynamics 
-are formally equivalent to those of a genetic algorithm while retaining 
+is formally equivalent to those of a genetic algorithm, while retaining 
 persistence as the implicit fitness measure. Instead of:
 \[
 p_{\text{new}} = p_1 \oplus p_2
@@ -162,7 +161,7 @@ p_{\text{new}} & \text{with probability } 1-\mu
 \end{cases}
 \]
 This change does not alter the selection mechanism: persistence $S(p)$ still 
-determines residence time and thus induces roulette–wheel selection.
+determines the residence time and thus induces roulette–wheel selection.
 
 
 \subsection{Population and Stability Distributions}
