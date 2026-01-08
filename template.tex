@@ -95,7 +95,7 @@ Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a 
 
 A Stability-Driven Assembly (SDA) system consists of base elements $A, B, C, \dots$ that recursively combine into compounds represented as
 strings of unbounded length. The persistence of each compound is determined by its
-stability $S$: a compound with $S=30$ remains for 30 generations before elimination, while the patterns $S=1$ vanish after a single generation. 
+stability $S$: a compound with $S=30$ remains for 30 generations before elimination, while the patterns with $S=1$ vanish after a single generation. 
 Expired motifs are removed without explicit reverse reactions and base
 elements are replenished at a constant rate each generation, ensuring
 continued exploration of assembly space. This setup parallels continuous-flow 
@@ -517,7 +517,7 @@ Fragmentation & Ester hydrolysis (R--COOR' $\to$ R--COOH + R'OH) & Inverse of re
 \end{adjustwidth}
 \end{table}
 
-In classical chemistry, reaction types are usually taught as synthesis pathways, 
+In classical organic chemistry, reaction types are usually taught as synthesis pathways, 
 each requiring defined reagents, catalysts, and conditions. The SDA framework, on the other hand, abstracts these transformations into population-level operators. 
 Rather than focusing on the mechanistic sequence of steps, SDA emphasizes how
 persistence and recombination biases determine which motifs accumulate over time. 
@@ -532,7 +532,7 @@ which ethanol (CCO) is converted to isopropanol (CC(C)O), a local substitution
 that alters stability while preserving the scaffold. 
 Figure~\ref{fig:mutation-recombination}b shows a \textit{recombination} event: 
 COCCO and CCOC(=O)C combine to yield CCOC, joining fragments from different
-parents into a new motif. These cases highlight the two main operator types:
+parents into a new motif. Here, recombination is performed in fragment space on symbolic molecular representations rather than as a stoichiometric chemical reaction; parent structures act as templates, and unused fragments are not interpreted as physical byproducts. These cases highlight the two main operator types:
 mutations correspond to local functional modifications, while recombinations
 generate novelty by linking distinct building blocks.
 
@@ -729,7 +729,7 @@ chemistry, computation, and biology.
 \appendixstart
 \appendix
 
-\section{Discussion and Implications}
+\section{Conceptual Extensions and Implications}
 
 \subsection{Open-Endedness and Computation}
 SDA can be viewed as a Markov process on an effectively unbounded state space. 
