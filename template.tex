@@ -79,7 +79,7 @@ One of the deepest questions in the origins of life research is how selection co
 
 Other perspectives highlight general physical drivers: preferential attachment in networks \cite{barabasi1999emergence}, dissipative adaptation in nonequilibrium thermodynamics \cite{prigogine1977self, england2015dissipative}, and work on evolutionary dynamics in chemical networks \cite{wu2012origin, nowak2006evolutionary}. Assembly theory quantifies complexity as the minimum depth of construction \cite{walker2023nature}, while constructor theory reformulates physics in terms of possible transformations \cite{deutsch2013constructor}. These approaches offer tools to measure or formalize complexity, though they stop short of explaining how information-generating dynamics arise in real time.
 
-The phrase 'chemical evolution' is widely used in the literature to describe the progressive transformation of molecules into more complex structures under prebiotic conditions. Yet the term is often applied descriptively rather than mechanistically, leaving open the question of what underlying principle imparts directionality or selection to such processes. In particular, while many models demonstrate how complexity can arise in specific chemistries, a general account of how chemical systems move from undirected reaction networks to cumulative, evolutionary dynamics has remained elusive.
+The phrase 'chemical evolution' is widely used in the literature to describe the progressive transformation of molecules into more complex structures under prebiotic conditions. Yet the term is often applied descriptively rather than mechanistically, leaving open the question of what underlying principle imparts directionality or selection to such processes. In particular, while many models demonstrate how complexity can arise in specific chemistries, a general account of how chemical systems move from undirected reaction networks to cumulative evolutionary dynamics has remained elusive.
 
 Biological evolution depends on variation and inheritance, but both presuppose molecular mechanisms capable of copying information. However, long before such machinery existed, physical and chemical systems already exhibited differences in persistence: some structures survived longer than others under given conditions. The central question is whether these persistence imbalances, acting alone, are sufficient to generate selection-like dynamics and drive the emergence of complexity.
 
@@ -87,17 +87,11 @@ In inanimate systems, patterns persist according to their stability under prevai
 
 Crucially, the persistence imbalances relevant to prebiotic and abiotic evolution are not small perturbations, but span many orders of magnitude. Across physics and chemistry, binding energies, decay rates, and structural reinforcement mechanisms generate lifetime differences ranging from fleeting quantum states to structures that persist for geological or cosmological timescales. These disparities are not incidental: they arise generically from symmetry, energetic minima, spatial organization, and hierarchical assembly. As a result, even weak biases in persistence, when integrated over time and coupled to continual stochastic assembly, can dominate population statistics. In such settings, the probability distribution over structures is not sampled uniformly but becomes progressively skewed toward long-lived motifs, producing effective directionality and entropy reduction without invoking replication, templating, or externally imposed fitness criteria.
 
-Although Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a framework in which 
-selection arises from persistence imbalances alone, the present work focuses on a new implication: the SDA dynamics implement a natural genetic algorithm through persistence-weighted feedback on the population distribution.
-
-Applied to organic chemistry, SDA simulations with chemically meaningful
-recombinations and mutations show populations progressively dominated by
-increasingly stable compounds, driving the system toward order while
-occasional stochastic innovations trigger bursts of reorganization.
+In this work, we show that persistence imbalances alone are sufficient to implement an evolutionary search. Specifically, we demonstrate that when stochastic assembly is coupled to differential persistence in an open, replenished system, the resulting feedback on the population distribution necessarily realizes fitness-proportional sampling. This establishes evolution as a natural genetic algorithm: an optimization process that is neither externally programmed nor combinatorial, but arises generically from persistence-weighted dynamics in nonequilibrium systems.
 
 \section{Stability-Driven Assembly (SDA)}
 
-Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a general non-equilibrium framework in which persistence imbalances bias the accumulation of structure over time . The present work does not revisit the full theoretical development of SDA, but instead uses its minimal formal structure as a substrate for a new result: the identification of SDA dynamics with a natural genetic algorithm. Accordingly, this section summarizes only those elements of SDA necessary to establish how persistence-weighted sampling reshapes probability distributions and induces evolutionary search.
+Stability-Driven Assembly (SDA) was previously introduced \cite{adler_sda} as a general non-equilibrium framework in which persistence imbalances bias the accumulation of structure over time . The present work does not revisit the full theoretical development of SDA, but instead draws on its minimal formal structure to analyze the resulting population dynamics. Accordingly, this section summarizes only those elements of SDA necessary to establish how persistence-weighted sampling reshapes probability distributions and induces evolutionary search.
 
 A Stability-Driven Assembly (SDA) system consists of base elements $A, B, C, \dots$ that recursively combine into compounds represented as
 strings of unbounded length. The persistence of each compound is determined by its
@@ -142,17 +136,17 @@ The original SDA formulation emphasizes string concatenation as the sole
 pattern-forming operation. In what follows, we generalize the interaction 
 to a recombination operator with an optional mutation step, and then examine 
 whether the core properties of SDA are preserved under this extension. 
-We refer to this generalized version as \textit{SDA/GA}, since the dynamics 
-is formally equivalent to those of a genetic algorithm, while retaining 
-persistence as the implicit fitness measure. Instead of:
+We refer to this generalized version as \textit{SDA/GA}, as the dynamics will be shown to 
+be equivalent to those of a genetic algorithm, while retaining 
+persistence as the implicit fitness measure. Instead of the SDA concatenation:
 \[
 p_{\text{new}} = p_1 \oplus p_2
 \]
-we use a recombination of the two patterns:
+we construct new patterns by recombining substrings of both patterns:
 \[
 p_{\text{new}} = \mathrm{Recombine}(p_1, p_2)
 \]
-optionally followed by \emph{single–site mutation} applied with probability $\mu$:
+optionally followed by \emph{single–site mutation} (localized stochastic modification of an existing pattern, such as insertion, deletion, or substitution at a single site) applied with probability $\mu$:
 \[
 p_{\text{new}} =
 \begin{cases}
@@ -160,9 +154,9 @@ p_{\text{new}} =
 p_{\text{new}} & \text{with probability } 1-\mu
 \end{cases}
 \]
-This change does not alter the selection mechanism: persistence $S(p)$ still 
-determines the residence time and thus induces roulette–wheel selection.
 
+These changes do not alter the selection mechanism: persistence $S(p)$ still 
+determines the residence time and thus induces the same frequency-weighted sampling characteristic of roulette–wheel selection.
 
 \subsection{Population and Stability Distributions}
 
@@ -203,11 +197,11 @@ offspring $p$ at time $t$:
 The persistence term remains as in Eq.~\ref{eq:persist-term-simple}. Intuitively, $K_t$ is just a lookup table of possible children for each 
 parent pair. In the deterministic concatenation case, it reduces to 
 $K_t(p\mid q,r)=\mathbf{1}\{p=q\oplus r\}$, so each pair produces exactly 
-one child. In recombination, $K_t$ may spread probability mass across 
-several outcomes: most weight might go to $q\oplus r$, but smaller weight 
+one child. In recombination, $K_t$ may spread the probability mass across 
+several outcomes: most weight might go to $q\oplus r$, but the smaller weight 
 can go to shorter or mutated variants. This makes explicit how mutation 
 and recombination introduce variation, while preserving the same update 
-structure as before. The updated population distribution is then
+structure as before. The updated population distribution is then:
 \begin{equation}
 \label{eq:full-ba-update}
 P_{t+1}(p) = \frac{\mathrm{Persist}_t(p) + \mathrm{Create}_t(p)}
@@ -243,6 +237,8 @@ where $\Delta H_{\text{create}}$ is typically positive and $\Delta H_{\text{pers
 
 \subsection{Continuum Limit and Fokker-Planck Analogy}
 
+Unlike near-equilibrium dissipative adaptation frameworks, where structure arises through externally imposed driving fields that bias steady-state fluxes \cite{england2015dissipative}, SDA dynamics generate endogenous, population-dependent drift fields that evolve with the distribution itself. The continuum formulation is therefore introduced not as an analytic convenience, but to make explicit how persistence-weighted feedback produces nonlinear, self-consistent evolutionary dynamics that cannot be captured by equilibrium or near-equilibrium models. 
+
 In the continuum limit, the SDA update can be written in a Fokker-Planck form \cite{gardiner2009}:
 \begin{equation}
 \frac{\partial P(x,t)}{\partial t}
@@ -258,13 +254,13 @@ Thus, although the equation resembles a linear Fokker-Planck, it is in fact nonl
 The first-order operator ($\nabla$) represents persistence-driven drift toward regions of higher stability, 
 while the second-order operator ($\nabla^2$) captures diffusion-like spreading from stochastic creation. 
 This functional dependence makes SDA dynamics intrinsically nonequilibrium and distinguishes them from 
-classical Fokker-Planck systems where drift and diffusion are externally specified. 
-Formally, SDA belongs to the class of nonlinear Fokker-Planck systems sometimes called McKean--Vlasov equations \cite{mckean1966, villani2009}, 
+classical Fokker-Planck systems, where drift and diffusion are externally specified. 
+Formally, SDA belongs to the class of nonlinear Fokker-Planck systems, sometimes called McKean--Vlasov equations \cite{mckean1966, villani2009}, 
 where drift depends self-consistently on the evolving distribution.  
 
 As demonstrated in our previous intervention experiments \cite{adler_sda}, 
 \textit{Persist} (stability imbalances) is the intrinsic driver of entropy
-reduction and pattern persistence, whereas \textit{Create} serves as a uniform ergodic source of novelty that cannot itself generate order.  
+reduction and pattern persistence, while \textit{Create} serves as a uniform ergodic source of novelty that cannot itself generate order.  
 In the continuum formulation, these two contributions map onto drift and diffusion, 
 but unlike the classical case, the drift field is a functional of the evolving
 population itself.  
@@ -273,7 +269,7 @@ This makes the SDA equation fundamentally different from the classical Fokker-Pl
 drift and diffusion are externally specified, yielding linear operators that
 permit eigenfunction expansions and closed-form steady states. In contrast,
 in SDA the drift emerges endogenously from the evolving distribution $P(x,t)$, 
-rendering the process non-linear, feedback driven and intrinsically non-equilibrium.  
+rendering the process non-linear, feedback driven, and intrinsically non-equilibrium.  
 As a result, traditional solution techniques based on linear operators and
 stationary distributions are not directly applicable, highlighting the need
 for alternative approaches in the SDA framework.
@@ -403,8 +399,7 @@ The study of genetic algorithms (GAs) has a long history in computer science and
 Holland’s foundational work \cite{holland1975adaptation} introduced the idea of using crossover, 
 mutation, and selection to evolve solutions to computational problems. Later, Goldberg 
 \cite{goldberg1989genetic} popularized and formalized GAs as practical optimization tools, 
-particularly for engineering and combinatorial search. Building on this tradition, Koza 
-\cite{koza1992genetic} extended the paradigm to genetic programming (GP), in which whole 
+particularly for engineering and combinatorial search \cite{adler1993marriage}. Building on this tradition, Koza \cite{koza1992genetic} extended the paradigm to genetic programming (GP), in which whole 
 program trees rather than fixed-length strings evolve under crossover and mutation. GP has 
 been especially influential in symbolic regression and in evolving nontrivial structures such 
 as circuits, strategies, and controllers.
@@ -869,133 +864,134 @@ The repository README includes a link to an interactive Google Colab notebook wi
 % ACS format
 \isAPAandChicago{}{%
 \begin{thebibliography}{999}
+
 % Reference 1
-\bibitem{ruizmirazo2014}
-Ruiz-Mirazo, K.; Briones, C.; de la Escosura, A. 
-Prebiotic Systems Chemistry: New Perspectives for the Origins of Life. 
-\textit{Chemical Reviews} \textbf{2014}, 114 (1), 285–366. doi:10.1021/cr2004844.
-
-% Reference 2
-\bibitem{nghe2015prebiotic}
-Nghe, P.; Hordijk, W.; Kauffman, S.A.; Walker, S.I.; Schmidt, F.J.; Kemble, H.; Yeates, J.A.; Lehman, N. \textit{Prebiotic network evolution: Six key parameters.} Molecular BioSystems \textbf{2015}, \textit{11}, 3206–3217.
-
-% Reference 3
-\bibitem{kauffman1993origins}
-Kauffman, S.A. 
-\textit{The Origins of Order: Self-Organization and Selection in Evolution}; 
-Oxford University Press: New York, NY, USA, 1993.
-
-% Reference 4
-\bibitem{hordijk2012autocatalytic}
-Hordijk, W.; Steel, M.; Kauffman, S. \textit{The Structure of Autocatalytic Sets: Evolvability, Enablement, and Emergence.} Acta Biotheoretica \textbf{2012}, \textit{60}, 379–392.
-
-% Reference 5
 \bibitem{kauffman1986autocatalytic}
 Kauffman, S.A. \textit{Autocatalytic sets of proteins.} Journal of Theoretical Biology \textbf{1986}, \textit{119}, 1–24.
 
-% Reference 6
+% Reference 2
 \bibitem{hordijk2011required}
 Hordijk, W.; Kauffman, S.A.; Steel, M. \textit{Required levels of catalysis for emergence of autocatalytic sets in models of chemical reaction systems.} International Journal of Molecular Sciences \textbf{2011}, \textit{12}, 3085–3101.
 
-% Reference 7
+% Reference 3
 \bibitem{eigen}
 Eigen M. \textit{The Hypercycle: A Principle of Natural Self-Organization.} Springer, 1979.
 
-% Reference 8
+% Reference 4
 \bibitem{fontana1991algorithmic}
 Fontana, W. \textit{Algorithmic chemistry.} Artificial Life II \textbf{1991}, \textit{11}, 159–209.
 
-% Reference 9
+% Reference 5
 \bibitem{adami1994}
 Adami, C.; Brown, C.T. 
 Evolutionary Learning in the 2D Artificial Life System ``Avida.'' 
 \textit{arXiv preprint} adap-org/9405003, 1994. Available online: \url{https://arxiv.org/abs/adap-org/9405003}.
 
-% Reference 10
+% Reference 6
 \bibitem{ray1992tierra}
 Ray, T.S. \textit{An approach to the synthesis of life}. Artificial Life II \textbf{1991}, 371--408.
 
-% Reference 11
+% Reference 7
 \bibitem{cronin2024chemputation}
 Cronin, L.; Pagel, S.; Sharma, A. \textit{The Chemputer and Chemputation: A Universal Chemical Compound Synthesis Machine}. Preprint available on arXiv (August 2024), arXiv:2408.09171.
 
-% Reference 12
+% Reference 8
 \bibitem{segre2000compositional}
 Segre, D.; Ben-Eli, D.; Lancet, D. \textit{Compositional genomes: Prebiotic information transfer in mutually catalytic noncovalent assemblies}. Proc. Natl. Acad. Sci. USA \textbf{2000}, 97, 4112--4117.
 
-% Reference 13
+% Reference 9
 \bibitem{markovitch2012universal}
 Markovitch, O.; Lancet, D. \textit{Excess mutual catalysis is required for effective evolvability}. Artif. Life \textbf{2012}, 18, 243--266.
 
-% Reference 14
+% Reference 10
 \bibitem{damer2015coupled}
 Damer, B.; Deamer, D. \textit{Coupled phases and combinatorial selection in fluctuating hydrothermal pools: A scenario to guide experimental approaches to the origin of cellular life}. Astrobiology \textbf{2015}, 15, 861--877.
 
-% Reference 15
+% Reference 11
 \bibitem{barabasi1999emergence}
 Barabási, A.-L.; Albert, R. \textit{Emergence of Scaling in Random Networks.} Science \textbf{1999}, \textit{286}, 509–512.
 
-% Reference 16
+% Reference 12
 \bibitem{prigogine1977self}
 Prigogine, I.; Nicolis, G. \textit{Self-Organization in Non-Equilibrium Systems}; Wiley: New York, NY, USA, 1977.
 
-% Reference 17
+% Reference 13
 \bibitem{england2015dissipative}
 England, J.L. \textit{Dissipative Adaptation in Driven Self-Assembly.} Nature Nanotechnology \textbf{2015}, \textit{10}, 919–923.
 
-% Reference 18
+% Reference 14
 \bibitem{nowak2006evolutionary}
 Nowak, M.A. \textit{Evolutionary Dynamics: Exploring the Equations of Life}; Belknap Press: Cambridge, MA, USA, 2006.
 
-
-% Reference 19
+% Reference 15
 \bibitem{wu2012origin}
 Wu, M.; Higgs, P.G. \textit{Origin of self-replicating biopolymers: Autocatalytic feedback can trump power law replication.} Journal of Molecular Evolution \textbf{2012}, \textit{74}, 91–102.
 
-% Reference 20
+% Reference 16
 \bibitem{walker2023nature}
 Walker, S.I.; Cronin, L.; et al. \textit{Assembly theory explains and quantifies selection and evolution across physical and biological systems.} Nature 2023, 618, 619-628.
 
-% Reference 21
+% Reference 17
 \bibitem{deutsch2013constructor}
 Deutsch, D.; Marletto, C. \textit{Constructor theory of information.} Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences \textbf{2015}, \textit{471}, 20140540.
 
+% Reference 18
+\bibitem{ruizmirazo2014}
+Ruiz-Mirazo, K.; Briones, C.; de la Escosura, A. 
+Prebiotic Systems Chemistry: New Perspectives for the Origins of Life. 
+\textit{Chemical Reviews} \textbf{2014}, 114 (1), 285–366. doi:10.1021/cr2004844.
+
+% Reference 19
+\bibitem{nghe2015prebiotic}
+Nghe, P.; Hordijk, W.; Kauffman, S.A.; Walker, S.I.; Schmidt, F.J.; Kemble, H.; Yeates, J.A.; Lehman, N. \textit{Prebiotic network evolution: Six key parameters.} Molecular BioSystems \textbf{2015}, \textit{11}, 3206–3217.
+
+% Reference 20
+\bibitem{kauffman1993origins}
+Kauffman, S.A. 
+\textit{The Origins of Order: Self-Organization and Selection in Evolution}; 
+Oxford University Press: New York, NY, USA, 1993.
+
+% Reference 21
+\bibitem{hordijk2012autocatalytic}
+Hordijk, W.; Steel, M.; Kauffman, S. \textit{The Structure of Autocatalytic Sets: Evolvability, Enablement, and Emergence.} Acta Biotheoretica \textbf{2012}, \textit{60}, 379–392.
+
 % Reference 22
-\bibitem{holland1975adaptation}
-Holland, J.H. \textit{Adaptation in Natural and Artificial Systems}; University of Michigan Press: Ann Arbor, MI, USA, 1975.
-
-% Reference 23
-\bibitem{adler1993marriage}
-Adler, D. \textit{Genetic algorithms and simulated annealing: a marriage proposal}. Proceedings of the IEEE International Conference on Neural Networks, San Francisco, CA, USA, 1993; pp. 1759--1764. doi:10.1109/ICNN.1993.298712.
-
-% Reference 24
 \bibitem{adler_sda}
 Adler, D.
 \textit{Stability-Driven Assembly Theory}.
-SSRN Preprint, 2025. Available at: \url{https://dx.doi.org/10.2139/ssrn.5203036}. Submitted to \textit{Journal of Theoretical Biology}.
+\textit{Journal of Theoretical Biology} \textbf{2026}, \textit{620}, 112352.
+https://doi.org/10.1016/j.jtbi.2025.112352.
 
-% Reference 25
+% Reference 23
 \bibitem{fogler1999chemical}
 Fogler, H.S. \textit{Elements of Chemical Reaction Engineering} (3rd ed.). Prentice Hall, 1999.
 
-% Reference 26
+% Reference 24
 \bibitem{gardiner2009} Gardiner, C. W. (2009). \textit{Stochastic Methods: A Handbook for the Natural and Social Sciences} (4th ed.). Springer.
 
-% Reference 27
+% Reference 25
 \bibitem{mckean1966}
 McKean, H.P. 
 \textit{A Class of Markov Processes Associated with Nonlinear Parabolic Equations}. 
 Proceedings of the National Academy of Sciences \textbf{1966}, 56, 1907–1911. doi:10.1073/pnas.56.6.1907.
 
-% Reference 28
+% Reference 26
 \bibitem{villani2009}
 Villani, C. 
 \textit{Optimal Transport: Old and New}. Springer, Berlin, 2009. 
 (See Chapter 2 for nonlinear Fokker–Planck and McKean–Vlasov formulations.)
 
-% Reference 29
+% Reference 27
+\bibitem{holland1975adaptation}
+Holland, J.H. \textit{Adaptation in Natural and Artificial Systems}; University of Michigan Press: Ann Arbor, MI, USA, 1975.
+
+% Reference 28
 \bibitem{goldberg1989genetic}
 Goldberg, D.E. \textit{Genetic Algorithms in Search, Optimization, and Machine Learning}; Addison-Wesley: Boston, MA, USA, 1989.
+
+% Reference 29
+\bibitem{adler1993marriage}
+Adler, D. \textit{Genetic algorithms and simulated annealing: a marriage proposal}. Proceedings of the IEEE International Conference on Neural Networks, San Francisco, CA, USA, 1993; pp. 1759--1764. doi:10.1109/ICNN.1993.298712.
 
 % Reference 30
 \bibitem{koza1992genetic}
@@ -1095,26 +1091,26 @@ Hershberg, R.; Petrov, D.A.
 Annual Review of Genetics \textbf{2008}, \textit{42}, 287--299.
 
 % Reference 47
+\bibitem{price1970}
+Price, G.R. \textit{Selection and Covariance.} Nature 1970, 227, 520–521 doi:10.1038/227520a0.
+
+% Reference 48
 \bibitem{mills1993keystone}
 Mills, L.S.; Soulé, M.E.; Doak, D.F. 
 \textit{The Keystone-Species Concept in Ecology and Conservation.} 
 BioScience \textbf{1993}, \textit{43} (4), 219--224. 
 doi:10.2307/1312122.
 
-% Reference 48
+% Reference 49
 \bibitem{gesteland2006rna}
 Gesteland, R.F.; Cech, T.R.; Atkins, J.F. (Eds.) 
 \textit{The RNA World}, 3rd ed.; Cold Spring Harbor Laboratory Press: Cold Spring Harbor, NY, USA, 2006. 
 
-% Reference 49
+% Reference 50
 \bibitem{maynardsmith1999origins}
 Maynard Smith, J.; Szathmáry, E. 
 \textit{The Origins of Life: From the Birth of Life to the Origin of Language}; 
 Oxford University Press: Oxford, UK, 1999.
-
-% Reference 50
-\bibitem{price1970}
-Price, G.R. \textit{Selection and Covariance.} Nature 1970, 227, 520–521 doi:10.1038/227520a0.
 
 % Reference 51
 \bibitem{rees2000six}
